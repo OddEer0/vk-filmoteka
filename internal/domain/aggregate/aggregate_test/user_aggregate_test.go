@@ -9,8 +9,8 @@ import (
 	"testing"
 )
 
-func TestActorAggregate(t *testing.T) {
-	memData := getTestData()
+func TestUserAggregate(t *testing.T) {
+	memData := getUserTestData()
 	testCases := []struct {
 		name              string
 		userModel         model.User
@@ -47,33 +47,35 @@ func TestActorAggregate(t *testing.T) {
 		},
 		{
 			name:              "Should min error",
-			userModel:         memData.incorrectMinUserError,
-			expectedAggregate: &aggregate.UserAggregate{User: memData.incorrectMinUserError},
+			userModel:         memData.incorrectMinUser,
+			expectedAggregate: &aggregate.UserAggregate{User: memData.incorrectMinUser},
 			isError:           true,
 			errFields:         []string{"Name"},
 		},
 		{
 			name:              "Should max error",
-			userModel:         memData.incorrectMaxUserError,
-			expectedAggregate: &aggregate.UserAggregate{User: memData.incorrectMaxUserError},
+			userModel:         memData.incorrectMaxUser,
+			expectedAggregate: &aggregate.UserAggregate{User: memData.incorrectMaxUser},
 			isError:           true,
 			errFields:         []string{"Name"},
 		},
 	}
 
 	for _, tc := range testCases {
-		result, err := aggregate.NewUserAggregate(tc.userModel)
-		if tc.isError {
-			assert.Error(t, err)
-			var validationError validator.ValidationErrors
-			ok := errors.As(err, &validationError)
-			assert.True(t, ok)
-			for i, e := range validationError {
-				assert.Equal(t, tc.errFields[i], e.Field())
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := aggregate.NewUserAggregate(tc.userModel)
+			if tc.isError {
+				assert.Error(t, err)
+				var validationError validator.ValidationErrors
+				ok := errors.As(err, &validationError)
+				assert.True(t, ok)
+				for i, e := range validationError {
+					assert.Equal(t, tc.errFields[i], e.Field())
+				}
+			} else {
+				assert.Equal(t, nil, err)
+				assert.Equal(t, tc.expectedAggregate, result)
 			}
-		} else {
-			assert.Equal(t, nil, err)
-			assert.Equal(t, tc.expectedAggregate, result)
-		}
+		})
 	}
 }
