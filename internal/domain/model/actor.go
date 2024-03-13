@@ -6,5 +6,5 @@ type Actor struct {
 	Id      string    `json:"id" validate:"required,uuidv4"`
 	Name    string    `json:"name" validate:"required,min=1,max=100"`
 	Gender  string    `json:"gender" validate:"required,gender"`
-	Birhday time.Time `json:"birhday" validate:"required"`
+	Birhday time.Time `json:"birhday" validate:"required,dateIsLessNow"`
 }

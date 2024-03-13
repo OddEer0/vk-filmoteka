@@ -1,6 +1,9 @@
 package aggregate
 
-import "github.com/OddEer0/ck-filmoteka/internal/domain/model"
+import (
+	appValidator "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_validator"
+	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
+)
 
 type ActorAggregate struct {
 	Actor model.Actor
@@ -8,6 +11,11 @@ type ActorAggregate struct {
 }
 
 func (a *ActorAggregate) Validation() error {
+	validator := appValidator.New()
+	err := validator.Struct(a.Actor)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
