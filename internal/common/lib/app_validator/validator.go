@@ -9,6 +9,7 @@ func New() *validator.Validate {
 	_ = validate.RegisterValidation("userRole", userRole)
 	_ = validate.RegisterValidation("dateIsLessNow", dateIsLessNow)
 	_ = validate.RegisterValidation("gender", isGender)
+	_ = validate.RegisterValidation("isValidPassword", isValidPassword)
 
 	return validate
 }
