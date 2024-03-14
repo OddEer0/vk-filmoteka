@@ -1,0 +1,11 @@
+env: "dev"
+http_server:
+  address: "localhost:5000"
+  timeout: 4s
+  idle_timeout: 30s
+postgres:
+  host: "localhost"
+  port: "5432"
+  user: "greenpoo"
+  password: "root"
+  dbname: "vk-filmoteka"
