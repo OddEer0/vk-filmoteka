@@ -5,13 +5,17 @@ import (
 	"strings"
 )
 
-type AppRouter struct{}
+func NewAppRouter() *http.ServeMux {
+	mux := http.NewServeMux()
 
-func (r *AppRouter) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	switch {
-	case strings.HasPrefix(req.URL.Path, HttpV1Prefix):
-		HttpV1Router(res, req)
-	default:
-		http.NotFound(res, req)
-	}
+	mux.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
+		switch {
+		case strings.HasPrefix(req.URL.Path, HttpV1Prefix):
+			HttpV1Router(res, req)
+		default:
+			http.NotFound(res, req)
+		}
+	})
+
+	return mux
 }
