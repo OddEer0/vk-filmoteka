@@ -1,6 +1,5 @@
 .idea
 .vscode
 /database.db
-.local.env
-.production.env
-save
+dev.yaml*
+prod.yaml*

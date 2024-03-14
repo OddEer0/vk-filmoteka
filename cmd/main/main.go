@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "github.com/OddEer0/ck-filmoteka/docs"
+	"github.com/OddEer0/ck-filmoteka/internal/infrastructure/config"
 	appRouter "github.com/OddEer0/ck-filmoteka/internal/presentation/router"
 	"log"
 	"net/http"
@@ -11,10 +12,11 @@ import (
 // @version 1.0
 // @description This is a sample HTTP package with Swagger annotations.
 func main() {
+	cfg := config.MustLoad()
 	router := appRouter.NewAppRouter()
 	initSwagger(router)
 
-	server := http.Server{Addr: "localhost:5000", Handler: router}
+	server := http.Server{Addr: cfg.Server.Address, Handler: router}
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("Error starting server")
 	}
