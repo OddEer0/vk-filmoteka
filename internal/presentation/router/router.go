@@ -5,9 +5,7 @@ import (
 	"strings"
 )
 
-type AppRouter struct{}
-
-func (r *AppRouter) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+func NewAppRouter(res http.ResponseWriter, req *http.Request) {
 	switch {
 	case strings.HasPrefix(req.URL.Path, HttpV1Prefix):
 		HttpV1Router(res, req)

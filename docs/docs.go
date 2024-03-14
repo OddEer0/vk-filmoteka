@@ -14,17 +14,79 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/http/v1/auth/registration": {
+            "post": {
+                "description": "Ответом при успешном регистрация получаем свои данные",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Регистрация пользователя",
+                "responses": {
+                    "200": {
+                        "description": "Данные созданного пользователя",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RegistrationDto"
+                        }
+                    },
+                    "404": {
+                        "description": "Ошибка 404",
+                        "schema": {
+                            "$ref": "#/definitions/httpv1.ErrorHandler"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.RegistrationDto": {
+            "type": "object",
+            "required": [
+                "name",
+                "password"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 3
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 35,
+                    "minLength": 8
+                }
+            }
+        },
+        "httpv1.ErrorHandler": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "VK-Filmoteka",
+	Description:      "This is a sample HTTP package with Swagger annotations.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
