@@ -20,8 +20,8 @@ func TestFilmRepository(t *testing.T) {
 	desc := "Test film description"
 	releaseDate, _ := time.Parse("2006-01-02", "2022-01-01")
 	film := &model.Film{
-		Id:          "1",
-		Name:        "test_film",
+		Id:          "100",
+		Name:        "test__film",
 		ReleaseDate: releaseDate,
 		Rate:        5,
 		Description: &desc,
@@ -76,14 +76,13 @@ func TestFilmRepository(t *testing.T) {
 
 	// Тест метода SearchByNameAndActorName
 	// Создаем несколько тестовых фильмов
-	film1 := &model.Film{Id: "1", Name: "film1"}
-	film2 := &model.Film{Id: "2", Name: "film2"}
-	film3 := &model.Film{Id: "3", Name: "film3"}
+	film1 := &model.Film{Id: "12121", Name: "superpuper1"}
+	film2 := &model.Film{Id: "2323", Name: "superpuper3"}
+	film3 := &model.Film{Id: "34242", Name: "superpuper2"}
 
 	db.Film = append(db.Film, film1, film2, film3)
 
-	// Ищем фильмы по имени и именам актеров
-	searchValue := "film"
+	searchValue := "superpuper"
 	foundFilms, _, err := repo.SearchByNameAndActorName(context.Background(), searchValue)
 	if err != nil {
 		t.Errorf("Ошибка при поиске фильмов: %v", err)

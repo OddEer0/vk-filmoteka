@@ -1,3 +1,11 @@
+test:
+	go test ./...
+
+cover:
+	go test ./... -v -coverpkg=./... -coverprofile=c.out
+	go tool cover -html="c.out"
+	rm c.out
+
 swagger:
 	rm -rf ./docs
 	swag init -g cmd/main/main.go
