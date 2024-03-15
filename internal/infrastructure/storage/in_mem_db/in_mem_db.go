@@ -2,11 +2,17 @@ package inMemDb
 
 import "github.com/OddEer0/ck-filmoteka/internal/domain/model"
 
+type ActorFilm struct {
+	ActorId string
+	FilmId  string
+}
+
 type InMemDb struct {
-	Users  []*model.User
-	Tokens []*model.Token
-	Actor  []*model.Actor
-	Film   []*model.Film
+	Users     []*model.User
+	Tokens    []*model.Token
+	Actor     []*model.Actor
+	Film      []*model.Film
+	ActorFilm []*ActorFilm
 }
 
 var instance *InMemDb = nil
@@ -17,10 +23,11 @@ func New() *InMemDb {
 	}
 
 	instance = &InMemDb{
-		Users:  []*model.User{},
-		Tokens: []*model.Token{},
-		Actor:  []*model.Actor{},
-		Film:   []*model.Film{},
+		Users:     []*model.User{},
+		Tokens:    []*model.Token{},
+		Actor:     []*model.Actor{},
+		Film:      []*model.Film{},
+		ActorFilm: []*ActorFilm{},
 	}
 
 	return instance
