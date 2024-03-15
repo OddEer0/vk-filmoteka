@@ -3,6 +3,7 @@ package main
 import (
 	_ "github.com/OddEer0/ck-filmoteka/docs"
 	"github.com/OddEer0/ck-filmoteka/internal/infrastructure/config"
+	slogger "github.com/OddEer0/ck-filmoteka/internal/infrastructure/logger"
 	appRouter "github.com/OddEer0/ck-filmoteka/internal/presentation/router"
 	"log"
 	"net/http"
@@ -13,8 +14,12 @@ import (
 // @description This is a sample HTTP package with Swagger annotations.
 func main() {
 	cfg := config.MustLoad()
-	router := appRouter.NewAppRouter()
+	logger := slogger.SetupLogger(cfg.Env)
+	logger.Info("Logger setup")
+	router := appRouter.NewAppRouter(logger)
+	logger.Info("router setup")
 	initSwagger(router)
+	logger.Info("swagger setup")
 
 	server := http.Server{Addr: cfg.Server.Address, Handler: router}
 	if err := server.ListenAndServe(); err != nil {
