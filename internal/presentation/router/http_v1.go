@@ -10,70 +10,74 @@ const (
 	HttpV1Prefix = "/http/v1"
 )
 
-func HttpV1Router(res http.ResponseWriter, req *http.Request) {
+func HttpV1Router(res http.ResponseWriter, req *http.Request) error {
 	path := strings.TrimPrefix(req.URL.Path, HttpV1Prefix)
 
 	switch path {
 	case "/auth":
-		HttpV1RouterAuth(res, req)
+		return HttpV1RouterAuth(res, req)
 	case "/actor":
-		HttpV1RouterActor(res, req)
+		return HttpV1RouterActor(res, req)
 	case "/film":
-		HttpV1RouterFilm(res, req)
+		return HttpV1RouterFilm(res, req)
 	case "/search/film":
 	default:
 		http.NotFound(res, req)
 	}
+	return nil
 }
 
-func HttpV1RouterAuth(res http.ResponseWriter, req *http.Request) {
+func HttpV1RouterAuth(res http.ResponseWriter, req *http.Request) error {
 	path := strings.TrimPrefix(req.URL.Path, HttpV1Prefix+"/auth")
 	appHandler := httpv1.NewAppHandler()
 
 	switch {
 	case req.Method == http.MethodPost && path == "/registration":
-		appHandler.AuthHandler.Registration(res, req)
+		return appHandler.AuthHandler.Registration(res, req)
 	case req.Method == http.MethodPost && path == "/login":
-		appHandler.AuthHandler.Login(res, req)
+		return appHandler.AuthHandler.Login(res, req)
 	case req.Method == http.MethodPost && path == "/refresh":
-		appHandler.AuthHandler.Refresh(res, req)
+		return appHandler.AuthHandler.Refresh(res, req)
 	case req.Method == http.MethodGet && path == "/logout":
-		appHandler.AuthHandler.Logout(res, req)
+		return appHandler.AuthHandler.Logout(res, req)
 	default:
 		http.NotFound(res, req)
 	}
+	return nil
 }
 
-func HttpV1RouterActor(res http.ResponseWriter, req *http.Request) {
+func HttpV1RouterActor(res http.ResponseWriter, req *http.Request) error {
 	appHandler := httpv1.NewAppHandler()
 
 	switch req.Method {
 	case http.MethodGet:
-		appHandler.ActorHandler.GetByQuery(res, req)
+		return appHandler.ActorHandler.GetByQuery(res, req)
 	case http.MethodPost:
-		appHandler.ActorHandler.Create(res, req)
+		return appHandler.ActorHandler.Create(res, req)
 	case http.MethodPut:
-		appHandler.ActorHandler.Update(res, req)
+		return appHandler.ActorHandler.Update(res, req)
 	case http.MethodDelete:
-		appHandler.ActorHandler.Delete(res, req)
+		return appHandler.ActorHandler.Delete(res, req)
 	default:
 		http.NotFound(res, req)
 	}
+	return nil
 }
 
-func HttpV1RouterFilm(res http.ResponseWriter, req *http.Request) {
+func HttpV1RouterFilm(res http.ResponseWriter, req *http.Request) error {
 	appHandler := httpv1.NewAppHandler()
 
 	switch req.Method {
 	case http.MethodGet:
-		appHandler.FilmHandler.GetByQuery(res, req)
+		return appHandler.FilmHandler.GetByQuery(res, req)
 	case http.MethodPost:
-		appHandler.FilmHandler.Create(res, req)
+		return appHandler.FilmHandler.Create(res, req)
 	case http.MethodPut:
-		appHandler.FilmHandler.Update(res, req)
+		return appHandler.FilmHandler.Update(res, req)
 	case http.MethodDelete:
-		appHandler.FilmHandler.Delete(res, req)
+		return appHandler.FilmHandler.Delete(res, req)
 	default:
 		http.NotFound(res, req)
 	}
+	return nil
 }
