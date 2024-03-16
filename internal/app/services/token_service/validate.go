@@ -2,8 +2,9 @@ package tokenService
 
 import (
 	"errors"
-	appErrors "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_errors"
-	"github.com/OddEer0/ck-filmoteka/internal/infrastructure/config"
+
+	appErrors "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_errors"
+	"github.com/OddEer0/vk-filmoteka/internal/infrastructure/config"
 	"github.com/golang-jwt/jwt"
 )
 

@@ -1,11 +1,12 @@
 package aggregate_test
 
 import (
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/valuesobject"
-	"github.com/google/uuid"
 	"strings"
 	"time"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/valuesobject"
+	"github.com/google/uuid"
 )
 
 type InMemUserTestData struct {

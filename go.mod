@@ -1,4 +1,4 @@
-module github.com/OddEer0/ck-filmoteka
+module github.com/OddEer0/vk-filmoteka
 
 go 1.21.1
 

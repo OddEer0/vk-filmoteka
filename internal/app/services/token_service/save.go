@@ -2,9 +2,10 @@ package tokenService
 
 import (
 	"context"
-	appDto "github.com/OddEer0/ck-filmoteka/internal/app/app_dto"
-	appErrors "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_errors"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
+
+	appDto "github.com/OddEer0/vk-filmoteka/internal/app/app_dto"
+	appErrors "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_errors"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
 )
 
 func (t *tokenService) Save(ctx context.Context, data appDto.SaveTokenServiceDto) (*model.Token, error) {

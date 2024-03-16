@@ -2,7 +2,8 @@ package tokenService
 
 import (
 	"context"
-	appErrors "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_errors"
+
+	appErrors "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_errors"
 )
 
 func (t *tokenService) HasByValue(ctx context.Context, refreshToken string) (bool, error) {

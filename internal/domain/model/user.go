@@ -1,6 +1,6 @@
 package model
 
-import "github.com/OddEer0/ck-filmoteka/internal/domain/valuesobject"
+import "github.com/OddEer0/vk-filmoteka/internal/domain/valuesobject"
 
 type User struct {
 	Id       string                `json:"id" validate:"required,uuidv4"`

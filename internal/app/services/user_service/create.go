@@ -2,12 +2,13 @@ package userService
 
 import (
 	"context"
-	appDto "github.com/OddEer0/ck-filmoteka/internal/app/app_dto"
-	"github.com/OddEer0/ck-filmoteka/internal/common/constants"
-	appErrors "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_errors"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/aggregate"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/valuesobject"
+
+	appDto "github.com/OddEer0/vk-filmoteka/internal/app/app_dto"
+	"github.com/OddEer0/vk-filmoteka/internal/common/constants"
+	appErrors "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_errors"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/aggregate"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/valuesobject"
 	"github.com/google/uuid"
 )
 

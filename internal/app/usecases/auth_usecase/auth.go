@@ -2,10 +2,11 @@ package authUseCase
 
 import (
 	"context"
-	appDto "github.com/OddEer0/ck-filmoteka/internal/app/app_dto"
-	tokenService "github.com/OddEer0/ck-filmoteka/internal/app/services/token_service"
-	userService "github.com/OddEer0/ck-filmoteka/internal/app/services/user_service"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/repository"
+
+	appDto "github.com/OddEer0/vk-filmoteka/internal/app/app_dto"
+	tokenService "github.com/OddEer0/vk-filmoteka/internal/app/services/token_service"
+	userService "github.com/OddEer0/vk-filmoteka/internal/app/services/user_service"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/repository"
 )
 
 type (

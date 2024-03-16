@@ -1,8 +1,8 @@
 package aggregate
 
 import (
-	appValidator "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_validator"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
+	appValidator "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_validator"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
 )
 
 type UserAggregate struct {

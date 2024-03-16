@@ -2,9 +2,10 @@ package appErrors
 
 import (
 	"errors"
-	httpUtils "github.com/OddEer0/ck-filmoteka/pkg/http_utils"
 	"log/slog"
 	"net/http"
+
+	httpUtils "github.com/OddEer0/vk-filmoteka/pkg/http_utils"
 )
 
 type AppHandlerFunc func(res http.ResponseWriter, req *http.Request) error

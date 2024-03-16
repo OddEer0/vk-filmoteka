@@ -2,9 +2,10 @@ package tokenService
 
 import (
 	"context"
-	appDto "github.com/OddEer0/ck-filmoteka/internal/app/app_dto"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/repository"
+
+	appDto "github.com/OddEer0/vk-filmoteka/internal/app/app_dto"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/repository"
 	"github.com/golang-jwt/jwt"
 )
 

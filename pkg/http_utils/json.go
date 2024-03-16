@@ -3,9 +3,10 @@ package httpUtils
 import (
 	"encoding/json"
 	"fmt"
-	appValidator "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_validator"
 	"io"
 	"net/http"
+
+	appValidator "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_validator"
 )
 
 const (

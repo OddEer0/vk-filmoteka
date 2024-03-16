@@ -2,10 +2,11 @@ package mock_repository_test
 
 import (
 	"context"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/aggregate"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
-	mockRepository "github.com/OddEer0/ck-filmoteka/internal/infrastructure/storage/mock_repository"
 	"testing"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/aggregate"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
+	mockRepository "github.com/OddEer0/vk-filmoteka/internal/infrastructure/storage/mock_repository"
 )
 
 func TestUserRepository(t *testing.T) {

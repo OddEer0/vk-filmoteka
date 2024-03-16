@@ -2,7 +2,8 @@ package repository
 
 import (
 	"context"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
 )
 
 type TokenRepository interface {

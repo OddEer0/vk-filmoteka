@@ -1,10 +1,11 @@
 package router
 
 import (
-	appErrors "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_errors"
 	"log/slog"
 	"net/http"
 	"strings"
+
+	appErrors "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_errors"
 )
 
 func appRouterHandler(res http.ResponseWriter, req *http.Request) error {

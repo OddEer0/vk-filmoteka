@@ -2,11 +2,12 @@ package vo_test
 
 import (
 	"errors"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/valuesobject"
-	"github.com/stretchr/testify/assert"
-	"golang.org/x/crypto/bcrypt"
 	"strings"
 	"testing"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/valuesobject"
+	"github.com/stretchr/testify/assert"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func TestPasswordVO(t *testing.T) {

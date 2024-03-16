@@ -2,8 +2,9 @@ package repository
 
 import (
 	"context"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/aggregate"
-	domainQuery "github.com/OddEer0/ck-filmoteka/internal/domain/repository/domain_query"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/aggregate"
+	domainQuery "github.com/OddEer0/vk-filmoteka/internal/domain/repository/domain_query"
 )
 
 type ActorRepository interface {

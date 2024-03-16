@@ -1,6 +1,6 @@
 package inMemDb
 
-import "github.com/OddEer0/ck-filmoteka/internal/domain/model"
+import "github.com/OddEer0/vk-filmoteka/internal/domain/model"
 
 type ActorFilm struct {
 	ActorId string

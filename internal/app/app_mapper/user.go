@@ -1,8 +1,8 @@
 package appMapper
 
 import (
-	appDto "github.com/OddEer0/ck-filmoteka/internal/app/app_dto"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/aggregate"
+	appDto "github.com/OddEer0/vk-filmoteka/internal/app/app_dto"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/aggregate"
 )
 
 type (

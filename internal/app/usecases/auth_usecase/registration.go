@@ -2,10 +2,11 @@ package authUseCase
 
 import (
 	"context"
-	appDto "github.com/OddEer0/ck-filmoteka/internal/app/app_dto"
-	appMapper "github.com/OddEer0/ck-filmoteka/internal/app/app_mapper"
-	tokenService "github.com/OddEer0/ck-filmoteka/internal/app/services/token_service"
-	appErrors "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_errors"
+
+	appDto "github.com/OddEer0/vk-filmoteka/internal/app/app_dto"
+	appMapper "github.com/OddEer0/vk-filmoteka/internal/app/app_mapper"
+	tokenService "github.com/OddEer0/vk-filmoteka/internal/app/services/token_service"
+	appErrors "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_errors"
 )
 
 func (a *authUseCase) Registration(ctx context.Context, data appDto.RegistrationUseCaseDto) (*AuthResult, error) {

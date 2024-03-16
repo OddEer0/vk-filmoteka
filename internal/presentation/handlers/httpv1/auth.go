@@ -1,8 +1,9 @@
 package httpv1
 
 import (
-	_ "github.com/OddEer0/ck-filmoteka/internal/presentation/dto"
 	"net/http"
+
+	_ "github.com/OddEer0/vk-filmoteka/internal/presentation/dto"
 )
 
 type (
