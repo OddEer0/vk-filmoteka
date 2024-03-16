@@ -1,8 +1,10 @@
+ABS_PATH=$(CURDIR)
+
 test:
-	go test ./...
+	CONFIG_PATH=$(ABS_PATH)/config/test.yaml go test ./...
 
 cover:
-	go test ./... -v -coverpkg=./... -coverprofile=c.out
+	CONFIG_PATH=$(ABS_PATH)/config/test.yaml go test ./... -v -coverpkg=./... -coverprofile=c.out
 	go tool cover -html="c.out"
 	rm c.out
 

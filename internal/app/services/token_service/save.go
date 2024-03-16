@@ -9,11 +9,9 @@ import (
 )
 
 func (t *tokenService) Save(ctx context.Context, data appDto.SaveTokenServiceDto) (*model.Token, error) {
-	has, err := t.TokenRepository.HasByValue(ctx, data.RefreshToken)
+	_, err := t.TokenRepository.GetById(ctx, data.Id)
+
 	if err != nil {
-		return nil, appErrors.InternalServerError("")
-	}
-	if !has {
 		token, err := t.TokenRepository.Create(ctx, &model.Token{Id: data.Id, Value: data.RefreshToken})
 		if err != nil {
 			return nil, appErrors.InternalServerError("")
