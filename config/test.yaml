@@ -1,7 +1,7 @@
 env: "test"
 api_key: "super-puper-test-key"
-access_token_time: "5m"
-refresh_token_time: "1h"
+access_token_time: "1s"
+refresh_token_time: "2s"
 http_server:
   address: "localhost:5000"
   timeout: 4s

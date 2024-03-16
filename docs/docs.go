@@ -38,7 +38,7 @@ const docTemplate = `{
                     "404": {
                         "description": "Ошибка 404",
                         "schema": {
-                            "$ref": "#/definitions/httpv1.ErrorHandler"
+                            "$ref": "#/definitions/appErrors.ResponseError"
                         }
                     }
                 }
@@ -46,6 +46,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "appErrors.ResponseError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.RegistrationDto": {
             "type": "object",
             "required": [
@@ -62,17 +73,6 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 35,
                     "minLength": 8
-                }
-            }
-        },
-        "httpv1.ErrorHandler": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "message": {
-                    "type": "string"
                 }
             }
         }

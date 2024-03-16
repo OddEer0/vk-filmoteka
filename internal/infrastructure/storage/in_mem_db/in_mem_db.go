@@ -15,6 +15,14 @@ type InMemDb struct {
 	ActorFilm []*ActorFilm
 }
 
+func (i *InMemDb) CleanUp() {
+	i.Users = []*model.User{}
+	i.Tokens = []*model.Token{}
+	i.Actor = []*model.Actor{}
+	i.Film = []*model.Film{}
+	i.ActorFilm = []*ActorFilm{}
+}
+
 var instance *InMemDb = nil
 
 func New() *InMemDb {

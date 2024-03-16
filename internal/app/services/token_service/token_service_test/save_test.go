@@ -39,7 +39,10 @@ func TestTokenServiceSave(t *testing.T) {
 	}
 	has, _ = tokenRepo.HasByValue(context.Background(), tokens.RefreshToken)
 	assert.False(t, has)
-	tokenServ.Save(context.Background(), appDto.SaveTokenServiceDto{Id: jwtData.Id, RefreshToken: tokens.RefreshToken})
+	_, err = tokenServ.Save(context.Background(), appDto.SaveTokenServiceDto{Id: jwtData.Id, RefreshToken: tokens.RefreshToken})
+	if err != nil {
+		t.Fatal(err)
+	}
 	has, _ = tokenRepo.HasByValue(context.Background(), tokens.RefreshToken)
 	assert.True(t, has)
 }
