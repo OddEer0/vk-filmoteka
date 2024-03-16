@@ -1,4 +1,11 @@
 definitions:
+  appErrors.ResponseError:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
   dto.RegistrationDto:
     properties:
       name:
@@ -12,13 +19,6 @@ definitions:
     required:
     - name
     - password
-    type: object
-  httpv1.ErrorHandler:
-    properties:
-      code:
-        type: integer
-      message:
-        type: string
     type: object
 info:
   contact: {}
@@ -41,7 +41,7 @@ paths:
         "404":
           description: Ошибка 404
           schema:
-            $ref: '#/definitions/httpv1.ErrorHandler'
+            $ref: '#/definitions/appErrors.ResponseError'
       summary: Регистрация пользователя
       tags:
       - auth

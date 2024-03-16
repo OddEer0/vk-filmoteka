@@ -2,11 +2,12 @@ package aggregate_test
 
 import (
 	"errors"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/aggregate"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
+	"testing"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/aggregate"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestActorAggregate(t *testing.T) {

@@ -1,9 +1,10 @@
 package router
 
 import (
-	"github.com/OddEer0/ck-filmoteka/internal/presentation/handlers/httpv1"
 	"net/http"
 	"strings"
+
+	"github.com/OddEer0/vk-filmoteka/internal/presentation/handlers/httpv1"
 )
 
 const (

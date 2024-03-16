@@ -2,7 +2,8 @@ package repository
 
 import (
 	"context"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/aggregate"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/aggregate"
 )
 
 type UserRepository interface {

@@ -1,8 +1,8 @@
 package aggregate
 
 import (
-	appValidator "github.com/OddEer0/ck-filmoteka/internal/common/lib/app_validator"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
+	appValidator "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_validator"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
 )
 
 type UserAggregate struct {
@@ -16,6 +16,17 @@ func (u *UserAggregate) Validation() error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (u *UserAggregate) SetToken(refreshToken string) error {
+	token := model.Token{Id: u.User.Id, Value: refreshToken}
+	validator := appValidator.New()
+	err := validator.Struct(token)
+	if err != nil {
+		return err
+	}
+	u.Token = &token
 	return nil
 }
 

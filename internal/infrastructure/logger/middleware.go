@@ -48,6 +48,7 @@ func LoggingMiddleware(logger *slog.Logger) func(http.Handler) http.Handler {
 
 			if wrapped.status < 400 {
 				logger.Debug(
+					"DEBUG",
 					"status", wrapped.status,
 					"method", req.Method,
 					"path", req.URL.EscapedPath(),

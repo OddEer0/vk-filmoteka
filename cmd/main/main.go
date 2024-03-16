@@ -1,12 +1,13 @@
 package main
 
 import (
-	_ "github.com/OddEer0/ck-filmoteka/docs"
-	"github.com/OddEer0/ck-filmoteka/internal/infrastructure/config"
-	slogger "github.com/OddEer0/ck-filmoteka/internal/infrastructure/logger"
-	appRouter "github.com/OddEer0/ck-filmoteka/internal/presentation/router"
 	"log"
 	"net/http"
+
+	_ "github.com/OddEer0/vk-filmoteka/docs"
+	"github.com/OddEer0/vk-filmoteka/internal/infrastructure/config"
+	slogger "github.com/OddEer0/vk-filmoteka/internal/infrastructure/logger"
+	appRouter "github.com/OddEer0/vk-filmoteka/internal/presentation/router"
 )
 
 // @title VK-Filmoteka

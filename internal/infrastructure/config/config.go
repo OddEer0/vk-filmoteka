@@ -8,9 +8,12 @@ import (
 )
 
 type Config struct {
-	Env      string     `yaml:"env" env-default:"dev"`
-	Server   HTTPServer `yaml:"http_server"`
-	Postgres PostgreSQL `yaml:"postgres"`
+	Env              string     `yaml:"env" env-default:"dev"`
+	ApiKey           string     `yaml:"api_key" env-defaul:"super-puper-secret-key"`
+	AccessTokenTime  string     `yaml:"access_token_time" env-default:"10m"`
+	RefreshTokenTime string     `yaml:"refresh_token_time" env-default:"1h"`
+	Server           HTTPServer `yaml:"http_server"`
+	Postgres         PostgreSQL `yaml:"postgres"`
 }
 
 type PostgreSQL struct {

@@ -1,6 +1,6 @@
 package inMemDb
 
-import "github.com/OddEer0/ck-filmoteka/internal/domain/model"
+import "github.com/OddEer0/vk-filmoteka/internal/domain/model"
 
 type ActorFilm struct {
 	ActorId string
@@ -13,6 +13,14 @@ type InMemDb struct {
 	Actor     []*model.Actor
 	Film      []*model.Film
 	ActorFilm []*ActorFilm
+}
+
+func (i *InMemDb) CleanUp() {
+	i.Users = []*model.User{}
+	i.Tokens = []*model.Token{}
+	i.Actor = []*model.Actor{}
+	i.Film = []*model.Film{}
+	i.ActorFilm = []*ActorFilm{}
 }
 
 var instance *InMemDb = nil

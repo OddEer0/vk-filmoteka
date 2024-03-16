@@ -3,9 +3,10 @@ package mockRepository
 import (
 	"context"
 	"errors"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/model"
-	"github.com/OddEer0/ck-filmoteka/internal/domain/repository"
-	inMemDb "github.com/OddEer0/ck-filmoteka/internal/infrastructure/storage/in_mem_db"
+
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/repository"
+	inMemDb "github.com/OddEer0/vk-filmoteka/internal/infrastructure/storage/in_mem_db"
 )
 
 type tokenRepository struct {
