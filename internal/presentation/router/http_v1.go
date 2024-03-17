@@ -13,6 +13,7 @@ const (
 
 func HttpV1Router(res http.ResponseWriter, req *http.Request) error {
 	path := strings.TrimPrefix(req.URL.Path, HttpV1Prefix)
+	appHandler := httpv1.NewAppHandler()
 
 	switch {
 	case strings.HasPrefix(path, "/auth"):
@@ -22,6 +23,7 @@ func HttpV1Router(res http.ResponseWriter, req *http.Request) error {
 	case strings.HasPrefix(path, "/film"):
 		return HttpV1RouterFilm(res, req)
 	case strings.HasPrefix(path, "/search/film"):
+		return appHandler.FilmHandler.SearchByNameAndActorName(res, req)
 	default:
 		http.NotFound(res, req)
 	}
@@ -49,15 +51,18 @@ func HttpV1RouterAuth(res http.ResponseWriter, req *http.Request) error {
 
 func HttpV1RouterActor(res http.ResponseWriter, req *http.Request) error {
 	appHandler := httpv1.NewAppHandler()
+	path := strings.TrimPrefix(req.URL.Path, HttpV1Prefix+"/actor")
 
-	switch req.Method {
-	case http.MethodGet:
+	switch {
+	case http.MethodPost == req.Method && path == "/add-film":
+		return appHandler.ActorHandler.AddFilm(res, req)
+	case http.MethodGet == req.Method:
 		return appHandler.ActorHandler.GetByQuery(res, req)
-	case http.MethodPost:
+	case http.MethodPost == req.Method:
 		return appHandler.ActorHandler.Create(res, req)
-	case http.MethodPut:
+	case http.MethodPut == req.Method:
 		return appHandler.ActorHandler.Update(res, req)
-	case http.MethodDelete:
+	case http.MethodDelete == req.Method:
 		return appHandler.ActorHandler.Delete(res, req)
 	default:
 		http.NotFound(res, req)
