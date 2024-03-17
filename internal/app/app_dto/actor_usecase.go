@@ -12,8 +12,8 @@ type (
 		Birthday time.Time
 	}
 
-	GetByQueryResult struct {
-		Actors    []*aggregate.ActorAggregate
-		PageCount int
+	ActorGetByQueryResult struct {
+		Actors    []*aggregate.ActorAggregate `json:"actors"`
+		PageCount int                         `json:"pageCount"`
 	}
 )

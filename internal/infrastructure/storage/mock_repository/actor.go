@@ -43,7 +43,7 @@ func (a actorRepository) Update(ctx context.Context, aggregate *aggregate.ActorA
 	})
 
 	if !has {
-		return nil, errors.New("not found")
+		return nil, sql.ErrNoRows
 	}
 
 	for i, item := range a.db.Actor {
@@ -74,7 +74,7 @@ func (a actorRepository) Delete(ctx context.Context, id string) error {
 	if has {
 		return nil
 	}
-	return errors.New("not found")
+	return sql.ErrNoRows
 }
 
 func (a actorRepository) AddFilm(ctx context.Context, actorId string, filmIds ...string) error {

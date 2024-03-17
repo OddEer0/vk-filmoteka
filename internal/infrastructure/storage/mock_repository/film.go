@@ -2,6 +2,7 @@ package mockRepository
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"slices"
 	"strings"
@@ -43,7 +44,7 @@ func (f filmRepository) Update(ctx context.Context, aggregate *aggregate.FilmAgg
 	})
 
 	if !has {
-		return nil, errors.New("not found")
+		return nil, sql.ErrNoRows
 	}
 
 	for i, item := range f.db.Film {
@@ -74,7 +75,7 @@ func (f filmRepository) Delete(ctx context.Context, id string) error {
 	if has {
 		return nil
 	}
-	return errors.New("not found")
+	return sql.ErrNoRows
 }
 
 func (f filmRepository) GetById(ctx context.Context, id string) (*aggregate.FilmAggregate, error) {
@@ -87,7 +88,7 @@ func (f filmRepository) GetById(ctx context.Context, id string) (*aggregate.Film
 	if searched != nil {
 		return &aggregate.FilmAggregate{Film: *searched}, nil
 	}
-	return nil, nil
+	return nil, sql.ErrNoRows
 }
 
 // TODO - Нету обработки на сортировку по полю
