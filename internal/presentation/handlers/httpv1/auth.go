@@ -27,7 +27,7 @@ type (
 )
 
 func NewAuthHandler(useCase authUseCase.AuthUseCase) AuthHandler {
-	return authHandler{
+	return &authHandler{
 		AuthUseCase: useCase,
 	}
 }
@@ -40,7 +40,7 @@ func NewAuthHandler(useCase authUseCase.AuthUseCase) AuthHandler {
 // @Success 200 {object} dto.RegistrationDto "Данные созданного пользователя"
 // @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
 // @Router /http/v1/auth/registration [post]
-func (a authHandler) Registration(res http.ResponseWriter, req *http.Request) error {
+func (a *authHandler) Registration(res http.ResponseWriter, req *http.Request) error {
 	var body appDto.RegistrationUseCaseDto
 	err := httpUtils.BodyJson(req, &body)
 	if err != nil {
@@ -63,7 +63,7 @@ func (a authHandler) Registration(res http.ResponseWriter, req *http.Request) er
 	return nil
 }
 
-func (a authHandler) Login(res http.ResponseWriter, req *http.Request) error {
+func (a *authHandler) Login(res http.ResponseWriter, req *http.Request) error {
 	var body appDto.LoginUseCaseDto
 	err := httpUtils.BodyJson(req, &body)
 	if err != nil {
@@ -87,7 +87,7 @@ func (a authHandler) Login(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
-func (a authHandler) Logout(res http.ResponseWriter, req *http.Request) error {
+func (a *authHandler) Logout(res http.ResponseWriter, req *http.Request) error {
 	token, err := req.Cookie("refreshToken")
 	if err != nil {
 		return appErrors.BadRequest("")
@@ -101,7 +101,7 @@ func (a authHandler) Logout(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
-func (a authHandler) Refresh(res http.ResponseWriter, req *http.Request) error {
+func (a *authHandler) Refresh(res http.ResponseWriter, req *http.Request) error {
 	token, err := req.Cookie("refreshToken")
 	if err != nil {
 		return appErrors.BadRequest("")
@@ -118,7 +118,7 @@ func (a authHandler) Refresh(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
-func (a authHandler) setToken(res http.ResponseWriter, refreshToken string, accessToken string) error {
+func (a *authHandler) setToken(res http.ResponseWriter, refreshToken string, accessToken string) error {
 	cfg := config.NewConfig()
 	refreshTokenTime, err := time.ParseDuration(cfg.RefreshTokenTime)
 	if err != nil {
@@ -154,7 +154,7 @@ func (a authHandler) setToken(res http.ResponseWriter, refreshToken string, acce
 	return nil
 }
 
-func (a authHandler) removeToken(res http.ResponseWriter) {
+func (a *authHandler) removeToken(res http.ResponseWriter) {
 	refreshCookie := http.Cookie{
 		Name:     "refreshToken",
 		Value:    "",

@@ -6,8 +6,8 @@ import (
 )
 
 type ActorAggregate struct {
-	Actor model.Actor
-	Films []*model.Film
+	Actor model.Actor   `json:"actor"`
+	Films []*model.Film `json:"films,omitempty"`
 }
 
 func (a *ActorAggregate) Validation() error {
