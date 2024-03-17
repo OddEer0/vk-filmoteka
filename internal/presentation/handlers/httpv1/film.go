@@ -1,6 +1,9 @@
 package httpv1
 
-import "net/http"
+import (
+	filmUseCase "github.com/OddEer0/vk-filmoteka/internal/app/usecases/film_usecase"
+	"net/http"
+)
 
 type (
 	FilmHandler interface {
@@ -11,11 +14,15 @@ type (
 		SearchByNameAndActorName(res http.ResponseWriter, req *http.Request) error
 	}
 
-	filmHandler struct{}
+	filmHandler struct {
+		filmUseCase.FilmUseCase
+	}
 )
 
-func NewFilmHandler() FilmHandler {
-	return filmHandler{}
+func NewFilmHandler(useCase filmUseCase.FilmUseCase) FilmHandler {
+	return filmHandler{
+		FilmUseCase: useCase,
+	}
 }
 
 func (a filmHandler) Create(res http.ResponseWriter, req *http.Request) error {
