@@ -1,0 +1,46 @@
+package httpv1
+
+import (
+	tokenService "github.com/OddEer0/vk-filmoteka/internal/app/services/token_service"
+	userService "github.com/OddEer0/vk-filmoteka/internal/app/services/user_service"
+	actorUseCase "github.com/OddEer0/vk-filmoteka/internal/app/usecases/actor_usecase"
+	authUseCase "github.com/OddEer0/vk-filmoteka/internal/app/usecases/auth_usecase"
+	filmUseCase "github.com/OddEer0/vk-filmoteka/internal/app/usecases/film_usecase"
+	mockRepository "github.com/OddEer0/vk-filmoteka/internal/infrastructure/storage/mock_repository"
+)
+
+type (
+	AppHandler struct {
+		AuthHandler
+		FilmHandler
+		ActorHandler
+	}
+)
+
+var instance *AppHandler = nil
+
+func NewAppHandler() *AppHandler {
+	if instance != nil {
+		return instance
+	}
+
+	userRepo := mockRepository.NewUserRepository()
+	tokenRepo := mockRepository.NewTokenRepository()
+	actorRepo := mockRepository.NewActorRepository()
+	filmRepo := mockRepository.NewFilmRepository()
+
+	userServ := userService.New(userRepo)
+	tokenServ := tokenService.New(tokenRepo)
+
+	authUsecase := authUseCase.New(userServ, tokenServ, userRepo)
+	actorUsecase := actorUseCase.New(actorRepo, filmRepo)
+	filmUsecase := filmUseCase.New(filmRepo)
+
+	instance = &AppHandler{
+		AuthHandler:  NewAuthHandler(authUsecase),
+		FilmHandler:  NewFilmHandler(filmUsecase),
+		ActorHandler: NewActorHandler(actorUsecase),
+	}
+
+	return instance
+}

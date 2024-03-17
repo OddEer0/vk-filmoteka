@@ -1,0 +1,72 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample HTTP package with Swagger annotations.",
+        "title": "VK-Filmoteka",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/http/v1/auth/registration": {
+            "post": {
+                "description": "Ответом при успешном регистрация получаем свои данные",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Регистрация пользователя",
+                "responses": {
+                    "200": {
+                        "description": "Данные созданного пользователя",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RegistrationDto"
+                        }
+                    },
+                    "404": {
+                        "description": "Ошибка 404",
+                        "schema": {
+                            "$ref": "#/definitions/appErrors.ResponseError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "appErrors.ResponseError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.RegistrationDto": {
+            "type": "object",
+            "required": [
+                "name",
+                "password"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 3
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 35,
+                    "minLength": 8
+                }
+            }
+        }
+    }
+}
