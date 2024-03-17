@@ -2,6 +2,7 @@ package mockRepository
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"slices"
 
@@ -87,18 +88,18 @@ func (a actorRepository) AddFilm(ctx context.Context, actorId string, filmIds ..
 		}
 
 		if searchedFilm == nil {
-			return errors.New("film not found")
+			return sql.ErrNoRows
 		}
 
 		var searchedActor *model.Actor
 		for _, actor := range a.db.Actor {
-			if actor.Id == id {
+			if actor.Id == actorId {
 				searchedActor = actor
 			}
 		}
 
 		if searchedActor == nil {
-			return errors.New("actor not found")
+			return sql.ErrNoRows
 		}
 
 		added = append(added, &inMemDb.ActorFilm{
@@ -121,7 +122,7 @@ func (a actorRepository) GetById(ctx context.Context, id string) (*aggregate.Act
 	if searched != nil {
 		return &aggregate.ActorAggregate{Actor: *searched}, nil
 	}
-	return nil, nil
+	return nil, sql.ErrNoRows
 }
 
 func (a actorRepository) GetByQuery(ctx context.Context, query domainQuery.ActorRepositoryQuery) ([]*aggregate.ActorAggregate, int, error) {
