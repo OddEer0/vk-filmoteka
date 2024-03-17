@@ -14,14 +14,14 @@ const (
 func HttpV1Router(res http.ResponseWriter, req *http.Request) error {
 	path := strings.TrimPrefix(req.URL.Path, HttpV1Prefix)
 
-	switch path {
-	case "/auth":
+	switch {
+	case strings.HasPrefix(path, "/auth"):
 		return HttpV1RouterAuth(res, req)
-	case "/actor":
+	case strings.HasPrefix(path, "/actor"):
 		return HttpV1RouterActor(res, req)
-	case "/film":
+	case strings.HasPrefix(path, "/film"):
 		return HttpV1RouterFilm(res, req)
-	case "/search/film":
+	case strings.HasPrefix(path, "/search/film"):
 	default:
 		http.NotFound(res, req)
 	}

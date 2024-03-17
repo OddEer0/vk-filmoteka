@@ -1,6 +1,9 @@
 package httpv1
 
-import "net/http"
+import (
+	actorUseCase "github.com/OddEer0/vk-filmoteka/internal/app/usecases/actor_usecase"
+	"net/http"
+)
 
 type (
 	ActorHandler interface {
@@ -10,11 +13,15 @@ type (
 		Update(res http.ResponseWriter, req *http.Request) error
 	}
 
-	actorHandler struct{}
+	actorHandler struct {
+		actorUseCase.ActorUseCase
+	}
 )
 
-func NewActorHandler() ActorHandler {
-	return actorHandler{}
+func NewActorHandler(useCase actorUseCase.ActorUseCase) ActorHandler {
+	return actorHandler{
+		ActorUseCase: useCase,
+	}
 }
 
 func (a actorHandler) Create(res http.ResponseWriter, req *http.Request) error {
