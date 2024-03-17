@@ -2,8 +2,7 @@ package mockRepository
 
 import (
 	"context"
-	"errors"
-
+	"database/sql"
 	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
 	"github.com/OddEer0/vk-filmoteka/internal/domain/repository"
 	inMemDb "github.com/OddEer0/vk-filmoteka/internal/infrastructure/storage/in_mem_db"
@@ -56,7 +55,7 @@ func (t tokenRepository) GetById(ctx context.Context, id string) (*model.Token, 
 	}
 
 	if !found {
-		return nil, errors.New("not found")
+		return nil, sql.ErrNoRows
 	}
 	return token, nil
 }

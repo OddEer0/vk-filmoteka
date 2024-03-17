@@ -18,7 +18,7 @@ type (
 		Update(ctx context.Context, data *aggregate.ActorAggregate) (*aggregate.ActorAggregate, error)
 		Delete(ctx context.Context, id string) error
 		GetById(ctx context.Context, id string) (*aggregate.ActorAggregate, error)
-		GetByQuery(ctx context.Context, query domainQuery.ActorRepositoryQuery) (*appDto.GetByQueryResult, error)
+		GetByQuery(ctx context.Context, query domainQuery.ActorRepositoryQuery) (*appDto.ActorGetByQueryResult, error)
 		AddFilm(ctx context.Context, actorId string, filmIds ...string) error
 	}
 
@@ -49,12 +49,10 @@ func (a *actorUseCase) Create(ctx context.Context, data appDto.CreateActorUseCas
 }
 
 func (a *actorUseCase) Update(ctx context.Context, data *aggregate.ActorAggregate) (*aggregate.ActorAggregate, error) {
-	user, _ := a.ActorRepository.GetById(ctx, data.Actor.Id)
-	if user == nil {
+	updateAggregate, err := a.ActorRepository.Update(ctx, data)
+	if err == sql.ErrNoRows {
 		return nil, appErrors.NotFound("")
 	}
-
-	updateAggregate, err := a.ActorRepository.Update(ctx, data)
 	if err != nil {
 		return nil, appErrors.InternalServerError("")
 	}
@@ -64,18 +62,20 @@ func (a *actorUseCase) Update(ctx context.Context, data *aggregate.ActorAggregat
 
 func (a *actorUseCase) Delete(ctx context.Context, id string) error {
 	err := a.ActorRepository.Delete(ctx, id)
-	if err != nil {
+	if err == sql.ErrNoRows {
 		return appErrors.NotFound("")
+	} else if err != nil {
+		return appErrors.InternalServerError("")
 	}
 	return nil
 }
 
-func (a *actorUseCase) GetByQuery(ctx context.Context, query domainQuery.ActorRepositoryQuery) (*appDto.GetByQueryResult, error) {
+func (a *actorUseCase) GetByQuery(ctx context.Context, query domainQuery.ActorRepositoryQuery) (*appDto.ActorGetByQueryResult, error) {
 	byQuery, pageCount, err := a.ActorRepository.GetByQuery(ctx, query)
 	if err != nil {
 		return nil, appErrors.InternalServerError("", "target: ActorUseCase, method: GetByQuery. ", "get by query error: ", err.Error())
 	}
-	return &appDto.GetByQueryResult{
+	return &appDto.ActorGetByQueryResult{
 		Actors:    byQuery,
 		PageCount: pageCount,
 	}, nil
@@ -85,7 +85,8 @@ func (a *actorUseCase) GetById(ctx context.Context, id string) (*aggregate.Actor
 	byId, err := a.ActorRepository.GetById(ctx, id)
 	if err == sql.ErrNoRows {
 		return nil, appErrors.NotFound("")
-	} else if err != nil {
+	}
+	if err != nil {
 		return nil, appErrors.InternalServerError("")
 	}
 	return byId, nil
@@ -98,7 +99,8 @@ func (a *actorUseCase) AddFilm(ctx context.Context, actorId string, filmIds ...s
 	err := a.ActorRepository.AddFilm(ctx, actorId, filmIds...)
 	if err == sql.ErrNoRows {
 		return appErrors.NotFound("")
-	} else if err != nil {
+	}
+	if err != nil {
 		return appErrors.InternalServerError("", "target: ActorUseCase, method: AddFilm", " added repository error: ", err.Error())
 	}
 

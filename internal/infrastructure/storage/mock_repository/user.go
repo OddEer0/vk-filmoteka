@@ -2,6 +2,7 @@ package mockRepository
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"slices"
 
@@ -52,7 +53,7 @@ func (u userRepository) Update(ctx context.Context, data *aggregate.UserAggregat
 	if has {
 		return data, nil
 	}
-	return nil, errors.New("not found")
+	return nil, sql.ErrNoRows
 }
 
 func (u userRepository) Delete(ctx context.Context, id string) error {
@@ -73,7 +74,7 @@ func (u userRepository) Delete(ctx context.Context, id string) error {
 	if has {
 		return nil
 	}
-	return errors.New("not found")
+	return sql.ErrNoRows
 }
 
 func (u userRepository) GetById(ctx context.Context, id string) (*aggregate.UserAggregate, error) {
@@ -86,7 +87,7 @@ func (u userRepository) GetById(ctx context.Context, id string) (*aggregate.User
 	if searched != nil {
 		return &aggregate.UserAggregate{User: *searched}, nil
 	}
-	return nil, nil
+	return nil, sql.ErrNoRows
 }
 
 func (u userRepository) HasUserByName(ctx context.Context, name string) (bool, error) {
@@ -104,7 +105,7 @@ func (u userRepository) GetByName(ctx context.Context, name string) (*aggregate.
 			return &aggregate.UserAggregate{User: *user}, nil
 		}
 	}
-	return nil, nil
+	return nil, sql.ErrNoRows
 }
 
 func NewUserRepository() repository.UserRepository {
