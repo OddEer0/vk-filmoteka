@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/OddEer0/vk-filmoteka/internal/infrastructure/storage/postgres"
+	"github.com/OddEer0/vk-filmoteka/internal/presentation/handlers/httpv1"
 	"log"
 	"net/http"
 
@@ -15,9 +17,14 @@ import (
 // @description This is a sample HTTP package with Swagger annotations.
 func main() {
 	cfg := config.MustLoad()
+	db, err := postgres.ConnectPg(cfg)
+	if err != nil {
+		log.Fatal("Error connect postgres", err.Error())
+	}
+	appHandler := httpv1.NewAppHandler(db)
 	logger := slogger.SetupLogger(cfg.Env)
 	logger.Info("Logger setup")
-	router := appRouter.NewAppRouter(logger)
+	router := appRouter.NewAppRouter(logger, appHandler)
 	logger.Info("router setup")
 	initSwagger(router)
 	logger.Info("swagger setup")

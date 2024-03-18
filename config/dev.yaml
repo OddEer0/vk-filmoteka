@@ -1,14 +1,16 @@
 env: "dev"
 api_key: "super-puper-secret-key-XDDD"
-access_token_time: "15m"
+access_token_time: "1h"
 refresh_token_time: "48h"
+admin_name: "green"
+admin_password: "SuperHorosh4142"
 http_server:
   address: "localhost:5000"
   timeout: 4s
   idle_timeout: 30s
 postgres:
   host: "localhost"
-  port: "5432"
+  port: 5432
   user: "greenpoo"
   password: "root"
-  dbname: "vk-filmoteka"
+  dbname: "filmoteka"

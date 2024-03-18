@@ -10,6 +10,8 @@ import (
 type Config struct {
 	Env              string     `yaml:"env" env-default:"dev"`
 	ApiKey           string     `yaml:"api_key" env-defaul:"super-puper-secret-key"`
+	AdminName        string     `yaml:"admin_name"`
+	AdminPassword    string     `yaml:"admin_password"`
 	AccessTokenTime  string     `yaml:"access_token_time" env-default:"10m"`
 	RefreshTokenTime string     `yaml:"refresh_token_time" env-default:"1h"`
 	Server           HTTPServer `yaml:"http_server"`
@@ -18,7 +20,7 @@ type Config struct {
 
 type PostgreSQL struct {
 	Host     string `yaml:"host" env-default:"localhost"`
-	Port     string `yaml:"port" env-default:"5121"`
+	Port     int    `yaml:"port" env-default:"5121"`
 	User     string `yaml:"user" env-default:"postgres"`
 	Password string `yaml:"password" env-default:"root"`
 	DbName   string `yaml:"dbname" env-default:"database"`
