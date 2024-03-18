@@ -37,7 +37,7 @@ func initActorHandler() http.HandlerFunc {
 }
 
 func TestActorHttpV1Test(t *testing.T) {
-	config.MustLoad()
+	cfg := config.MustLoad()
 	t.Run("Should create actor", func(t *testing.T) {
 		handler := initActorHandler()
 		rr := httptest.NewRecorder()
@@ -182,4 +182,60 @@ func TestActorHttpV1Test(t *testing.T) {
 		handler.ServeHTTP(rr, req)
 		assert.Equal(t, http.StatusBadRequest, rr.Code)
 	})
+
+	cfg.Env = "dev"
+	t.Run("Should create actor", func(t *testing.T) {
+		handler := initActorHandler()
+		rr := httptest.NewRecorder()
+		requestBody, err := json.Marshal(map[string]string{
+			"name":     "Jason",
+			"gender":   "male",
+			"birthday": "2004-03-17T18:43:48.52645+03:00",
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		req, err := http.NewRequest("POST", "/http/v1/actor", bytes.NewBuffer(requestBody))
+		if err != nil {
+			t.Fatal(err)
+		}
+		handler.ServeHTTP(rr, req)
+		assert.Equal(t, http.StatusUnauthorized, rr.Code)
+	})
+
+	t.Run("Should create actor", func(t *testing.T) {
+		authHandler := initAppHandler()
+		rrAuth := httptest.NewRecorder()
+		requestBody, err := json.Marshal(map[string]string{
+			"name":     "Admin",
+			"password": "Adminadmin41",
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		req, err := http.NewRequest("POST", "/http/v1/auth/login", bytes.NewBuffer(requestBody))
+		if err != nil {
+			t.Fatal(err)
+		}
+		authHandler.ServeHTTP(rrAuth, req)
+
+		handler := initActorHandler()
+		rr := httptest.NewRecorder()
+		requestBody, err = json.Marshal(map[string]string{
+			"name":     "Jason",
+			"gender":   "male",
+			"birthday": "2004-03-17T18:43:48.52645+03:00",
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		req, err = http.NewRequest("POST", "/http/v1/actor", bytes.NewBuffer(requestBody))
+		setToken(rrAuth, req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		handler.ServeHTTP(rr, req)
+		assert.Equal(t, http.StatusOK, rr.Code)
+	})
+	cfg.Env = "test"
 }
