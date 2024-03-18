@@ -22,4 +22,10 @@ prod:
 	CONFIG_PATH=./config/prod.yaml go run ./cmd/main/main.go
 
 clean:
-	rm -rf ./docs
+	rm -rf main
+
+build:
+	CONFIG_PATH=./config/prod.yaml go build ./cmd/main/main.go
+
+start:
+	CONFIG_PATH=./config/prod.yaml ./main
