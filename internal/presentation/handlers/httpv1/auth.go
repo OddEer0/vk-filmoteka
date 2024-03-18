@@ -37,7 +37,8 @@ func NewAuthHandler(useCase authUseCase.AuthUseCase) AuthHandler {
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Success 200 {object} dto.RegistrationDto "Данные созданного пользователя"
+// @Param reg body appDto.RegistrationUseCaseDto true "Данные нового пользователя"
+// @Success 200 {object} appDto.ResponseUserDto "Данные созданного пользователя"
 // @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
 // @Router /http/v1/auth/registration [post]
 func (a *authHandler) Registration(res http.ResponseWriter, req *http.Request) error {
@@ -63,6 +64,15 @@ func (a *authHandler) Registration(res http.ResponseWriter, req *http.Request) e
 	return nil
 }
 
+// @Summary Логин пользователя
+// @Description Ответом при успешном Логине получаем свои данные
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param login body appDto.LoginUseCaseDto true "Данные пользователя"
+// @Success 200 {object} appDto.ResponseUserDto "Данные пользователя"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/auth/login [post]
 func (a *authHandler) Login(res http.ResponseWriter, req *http.Request) error {
 	var body appDto.LoginUseCaseDto
 	err := httpUtils.BodyJson(req, &body)
@@ -87,6 +97,15 @@ func (a *authHandler) Login(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
+// @Summary Обновление access токена пользователя
+// @Description Ответом ничего не получает. Чистится куки
+// @Tags auth
+// @Accept json
+// @Produce json
+// @CookieParam accessToken string true "Идентификатор сессии"
+// @CookieParam refreshToken string true "Идентификатор сессии"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/auth/logout [get]
 func (a *authHandler) Logout(res http.ResponseWriter, req *http.Request) error {
 	token, err := req.Cookie("refreshToken")
 	if err != nil {
@@ -101,6 +120,15 @@ func (a *authHandler) Logout(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
+// @Summary Обновление access токена пользователя
+// @Description Ответом при успешном Логине получаем свои данные
+// @Tags auth
+// @Accept json
+// @Produce json
+// @CookieParam refreshToken string true "Идентификатор сессии"
+// @Success 200 {object} appDto.ResponseUserDto "Данные созданного пользователя"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/auth/refresh [post]
 func (a *authHandler) Refresh(res http.ResponseWriter, req *http.Request) error {
 	token, err := req.Cookie("refreshToken")
 	if err != nil {
