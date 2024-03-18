@@ -33,6 +33,15 @@ func NewActorHandler(useCase actorUseCase.ActorUseCase) ActorHandler {
 	}
 }
 
+// @Summary Создание актера [Админы]
+// @Description Доступно только админам
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param reg body appDto.CreateActorUseCaseDto true "Данные актера"
+// @Success 200 {object} model.Actor "Данные созданного актера"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [post]
 func (a *actorHandler) Create(res http.ResponseWriter, req *http.Request) error {
 	var body appDto.CreateActorUseCaseDto
 	err := httpUtils.BodyJson(req, &body)
@@ -52,6 +61,14 @@ func (a *actorHandler) Create(res http.ResponseWriter, req *http.Request) error 
 	return nil
 }
 
+// @Summary Удаление актера [Админы]
+// @Description Доступно только админам, ничего ответом не возвращает
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param id query string true "id удаляемого пользователья"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [delete]
 func (a *actorHandler) Delete(res http.ResponseWriter, req *http.Request) error {
 	id := req.URL.Query().Get("id")
 	if id == "" {
@@ -65,6 +82,17 @@ func (a *actorHandler) Delete(res http.ResponseWriter, req *http.Request) error 
 	return nil
 }
 
+// @Summary Получение актера
+// @Description Можно задавать разные query
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param page query string false "текущая страница"
+// @Param page-count query string false "кол-во актеров на странице"
+// @Param connection query string false "Вернуть вместе со связями (film)"
+// @Success 200 {object} appDto.ActorGetByQueryResult "получаемые актеры"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [get]
 func (a *actorHandler) GetByQuery(res http.ResponseWriter, req *http.Request) error {
 	query := req.URL.Query()
 	fQuery := domainQuery.NewActorRepositoryQuery()
@@ -102,6 +130,15 @@ func (a *actorHandler) GetByQuery(res http.ResponseWriter, req *http.Request) er
 	return nil
 }
 
+// @Summary Обновление актера [Админы]
+// @Description Доступно только админам
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param reg body model.Actor true "Данные актера"
+// @Success 200 {object} model.Actor "Данные актера"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [put]
 func (a *actorHandler) Update(res http.ResponseWriter, req *http.Request) error {
 	var body model.Actor
 	err := httpUtils.BodyJson(req, &body)
@@ -126,6 +163,14 @@ func (a *actorHandler) Update(res http.ResponseWriter, req *http.Request) error 
 	return nil
 }
 
+// @Summary Обновление актера [Админы]
+// @Description Доступно только админам
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param reg body dto.AddFilmToActorDto true "Данные id для связывания актера и фильма"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor/add-film [post]
 func (a *actorHandler) AddFilm(res http.ResponseWriter, req *http.Request) error {
 	var body dto.AddFilmToActorDto
 	err := httpUtils.BodyJson(req, &body)

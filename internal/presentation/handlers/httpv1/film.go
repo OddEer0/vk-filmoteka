@@ -32,6 +32,15 @@ func NewFilmHandler(useCase filmUseCase.FilmUseCase) FilmHandler {
 	}
 }
 
+// @Summary Создание фильма [Админы]
+// @Description Доступно только админам
+// @Tags film
+// @Accept json
+// @Produce json
+// @Param reg body appDto.CreateFilmUseCaseDto true "Данные фильма"
+// @Success 200 {object} model.Film "Данные созданного фильма"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/film [post]
 func (f *filmHandler) Create(res http.ResponseWriter, req *http.Request) error {
 	var body appDto.CreateFilmUseCaseDto
 	err := httpUtils.BodyJson(req, &body)
@@ -51,6 +60,14 @@ func (f *filmHandler) Create(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
+// @Summary Создание фильма [Админы]
+// @Description Доступно только админам, ничего не возвоащает
+// @Tags film
+// @Accept json
+// @Produce json
+// @Param id query string true "id удаляемого фильма"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/film [delete]
 func (f *filmHandler) Delete(res http.ResponseWriter, req *http.Request) error {
 	id := req.URL.Query().Get("id")
 	if id == "" {
@@ -65,6 +82,19 @@ func (f *filmHandler) Delete(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
+// @Summary Получение фильма
+// @Description Можно задавать разные query
+// @Tags film
+// @Accept json
+// @Produce json
+// @Param page query string false "текущая страница"
+// @Param page-count query string false "кол-во актеров на странице"
+// @Param connection query string false "Вернуть вместе со связями (film)"
+// @Param order-by query string false "asc либо desc"
+// @Param order-field query string false "поле по которому сортируют (rate, name, release_date)"
+// @Success 200 {object} appDto.FilmGetByQueryResult "получаемые фильмы"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/film [get]
 func (f *filmHandler) GetByQuery(res http.ResponseWriter, req *http.Request) error {
 	fQuery := domainQuery.NewFilmRepositoryQuery()
 	var err error
@@ -102,7 +132,7 @@ func (f *filmHandler) GetByQuery(res http.ResponseWriter, req *http.Request) err
 	}
 	if query.Has("order-field") {
 		field := query.Get("order-field")
-		correctFields := []string{"name", "date", "rate"}
+		correctFields := []string{"name", "release_date", "rate"}
 		has := false
 		for _, correctField := range correctFields {
 			if field == correctField {
@@ -125,6 +155,15 @@ func (f *filmHandler) GetByQuery(res http.ResponseWriter, req *http.Request) err
 	return nil
 }
 
+// @Summary Создание фильма [Админы]
+// @Description Доступно только админам
+// @Tags film
+// @Accept json
+// @Produce json
+// @Param reg body model.Film true "Данные фильма"
+// @Success 200 {object} model.Film "Данные обновленного фильма"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/film [put]
 func (f *filmHandler) Update(res http.ResponseWriter, req *http.Request) error {
 	var body model.Film
 	err := httpUtils.BodyJson(req, &body)
@@ -149,6 +188,15 @@ func (f *filmHandler) Update(res http.ResponseWriter, req *http.Request) error {
 	return nil
 }
 
+// @Summary Поиск фильма
+// @Description поиск по имени и имени актеров
+// @Tags film
+// @Accept json
+// @Produce json
+// @Param search query string false "параметр поиска"
+// @Success 200 {object} appDto.FilmGetByQueryResult "получаемые фильмы"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/film/search [get]
 func (f *filmHandler) SearchByNameAndActorName(res http.ResponseWriter, req *http.Request) error {
 	query := req.URL.Query()
 	if !query.Has("search") {
