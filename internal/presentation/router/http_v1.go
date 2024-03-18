@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"github.com/OddEer0/vk-filmoteka/internal/common/constants"
 	appErrors "github.com/OddEer0/vk-filmoteka/internal/common/lib/app_errors"
 	"github.com/OddEer0/vk-filmoteka/internal/presentation/middleware"
@@ -15,23 +14,22 @@ const (
 	HttpV1Prefix = "/http/v1"
 )
 
-func HttpV1Router(res http.ResponseWriter, req *http.Request) error {
-	path := strings.TrimPrefix(req.URL.Path, HttpV1Prefix)
-	appHandler := httpv1.NewAppHandler()
+func HttpV1Router(appHandler *httpv1.AppHandler) appErrors.AppHandlerFunc {
+	return func(res http.ResponseWriter, req *http.Request) error {
+		path := strings.TrimPrefix(req.URL.Path, HttpV1Prefix)
 
-	fmt.Println(path)
-
-	switch {
-	case strings.HasPrefix(path, "/auth"):
-		return HttpV1RouterAuth(appHandler)(res, req)
-	case strings.HasPrefix(path, "/actor"):
-		return HttpV1RouterActor(appHandler)(res, req)
-	case strings.HasPrefix(path, "/film"):
-		return HttpV1RouterFilm(appHandler)(res, req)
-	default:
-		http.NotFound(res, req)
+		switch {
+		case strings.HasPrefix(path, "/auth"):
+			return HttpV1RouterAuth(appHandler)(res, req)
+		case strings.HasPrefix(path, "/actor"):
+			return HttpV1RouterActor(appHandler)(res, req)
+		case strings.HasPrefix(path, "/film"):
+			return HttpV1RouterFilm(appHandler)(res, req)
+		default:
+			http.NotFound(res, req)
+		}
+		return nil
 	}
-	return nil
 }
 
 func HttpV1RouterAuth(appHandler *httpv1.AppHandler) appErrors.AppHandlerFunc {

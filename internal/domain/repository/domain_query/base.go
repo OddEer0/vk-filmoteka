@@ -1,8 +1,8 @@
 package domainQuery
 
-type OrderDirection bool
+type OrderDirection string
 
 const (
-	Asc  OrderDirection = true
-	Desc OrderDirection = false
+	Asc  OrderDirection = "ASC"
+	Desc OrderDirection = "DESC"
 )
