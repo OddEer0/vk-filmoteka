@@ -65,10 +65,10 @@ func (f filmUseCase) Update(ctx context.Context, data *aggregate.FilmAggregate) 
 func (f filmUseCase) Delete(ctx context.Context, id string) error {
 	err := f.FilmRepository.Delete(ctx, id)
 	if err == sql.ErrNoRows {
-		return appErrors.NotFound("")
+		return appErrors.NotFound("", "error: ", err.Error())
 	}
 	if err != nil {
-		return appErrors.InternalServerError("")
+		return appErrors.InternalServerError("", "error: ", err.Error())
 	}
 
 	return nil
@@ -88,7 +88,7 @@ func (f filmUseCase) GetById(ctx context.Context, id string) (*aggregate.FilmAgg
 func (f filmUseCase) GetByQuery(ctx context.Context, query domainQuery.FilmRepositoryQuery) (*appDto.FilmGetByQueryResult, error) {
 	byQuery, pageCount, err := f.FilmRepository.GetByQuery(ctx, query)
 	if err != nil {
-		return nil, appErrors.InternalServerError("")
+		return nil, appErrors.InternalServerError("", "error:", err.Error())
 	}
 
 	return &appDto.FilmGetByQueryResult{
@@ -100,7 +100,7 @@ func (f filmUseCase) GetByQuery(ctx context.Context, query domainQuery.FilmRepos
 func (f filmUseCase) SearchByNameAndActorName(ctx context.Context, searchValue string) (*appDto.FilmGetByQueryResult, error) {
 	films, pageCount, err := f.FilmRepository.SearchByNameAndActorName(ctx, searchValue)
 	if len(films) == 0 {
-		return nil, appErrors.NotFound("search query not found")
+		return nil, appErrors.NotFound("Search film not found")
 	}
 	if err != nil {
 		return nil, appErrors.InternalServerError("")

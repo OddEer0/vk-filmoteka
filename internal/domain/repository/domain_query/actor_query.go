@@ -6,8 +6,8 @@ type ActorRepositoryQuery struct {
 	WithConnection []string
 }
 
-func NewActorRepositoryQuery() *FilmRepositoryQuery {
-	return &FilmRepositoryQuery{
+func NewActorRepositoryQuery() *ActorRepositoryQuery {
+	return &ActorRepositoryQuery{
 		CurrentPage:    1,
 		PageCount:      10,
 		WithConnection: make([]string, 0, 4),

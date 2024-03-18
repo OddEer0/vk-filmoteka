@@ -33,6 +33,15 @@ func NewActorHandler(useCase actorUseCase.ActorUseCase) ActorHandler {
 	}
 }
 
+// @Summary Создание актера [Админы]
+// @Description Доступно только админам
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param reg body appDto.CreateActorUseCaseDto true "Данные актера"
+// @Success 200 {object} model.Actor "Данные созданного актера"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [post]
 func (a *actorHandler) Create(res http.ResponseWriter, req *http.Request) error {
 	var body appDto.CreateActorUseCaseDto
 	err := httpUtils.BodyJson(req, &body)
@@ -52,6 +61,14 @@ func (a *actorHandler) Create(res http.ResponseWriter, req *http.Request) error 
 	return nil
 }
 
+// @Summary Удаление актера [Админы]
+// @Description Доступно только админам, ничего ответом не возвращает
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param id query string true "id удаляемого пользователья"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [delete]
 func (a *actorHandler) Delete(res http.ResponseWriter, req *http.Request) error {
 	id := req.URL.Query().Get("id")
 	if id == "" {
@@ -65,41 +82,45 @@ func (a *actorHandler) Delete(res http.ResponseWriter, req *http.Request) error 
 	return nil
 }
 
+// @Summary Получение актера
+// @Description Можно задавать разные query
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param page query string false "текущая страница"
+// @Param page-count query string false "кол-во актеров на странице"
+// @Param connection query string false "Вернуть вместе со связями (film)"
+// @Success 200 {object} appDto.ActorGetByQueryResult "получаемые актеры"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [get]
 func (a *actorHandler) GetByQuery(res http.ResponseWriter, req *http.Request) error {
 	query := req.URL.Query()
-	var (
-		currentPage = 1
-		pageCount   = 10
-		connection  = make([]string, 0, 1)
-		err         error
-	)
+	fQuery := domainQuery.NewActorRepositoryQuery()
+	var err error
+
 	if query.Has("page") {
 		currentPageQ := req.URL.Query().Get("page")
-		currentPage, err = strconv.Atoi(currentPageQ)
+		fQuery.CurrentPage, err = strconv.Atoi(currentPageQ)
 		if err != nil {
-			return appErrors.BadRequest("")
+			return appErrors.BadRequest("invalid page")
 		}
 	}
 	if query.Has("page-count") {
 		pageCountQ := req.URL.Query().Get("page-count")
-		pageCount, err = strconv.Atoi(pageCountQ)
+		fQuery.PageCount, err = strconv.Atoi(pageCountQ)
 		if err != nil {
-			return appErrors.BadRequest("")
+			return appErrors.BadRequest("invalid page count")
 		}
 	}
 	if query.Has("connection") {
 		connectionQ := req.URL.Query().Get("connection")
 		if connectionQ != "film" {
-			return appErrors.BadRequest("")
+			return appErrors.BadRequest("invalid connection")
 		}
-		connection = append(connection, connectionQ)
+		fQuery.WithConnection = append(fQuery.WithConnection, connectionQ)
 	}
 
-	result, err := a.ActorUseCase.GetByQuery(req.Context(), domainQuery.ActorRepositoryQuery{
-		CurrentPage:    currentPage,
-		PageCount:      pageCount,
-		WithConnection: connection,
-	})
+	result, err := a.ActorUseCase.GetByQuery(req.Context(), *fQuery)
 	if err != nil {
 		return err
 	}
@@ -109,6 +130,15 @@ func (a *actorHandler) GetByQuery(res http.ResponseWriter, req *http.Request) er
 	return nil
 }
 
+// @Summary Обновление актера [Админы]
+// @Description Доступно только админам
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param reg body model.Actor true "Данные актера"
+// @Success 200 {object} model.Actor "Данные актера"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor [put]
 func (a *actorHandler) Update(res http.ResponseWriter, req *http.Request) error {
 	var body model.Actor
 	err := httpUtils.BodyJson(req, &body)
@@ -133,6 +163,14 @@ func (a *actorHandler) Update(res http.ResponseWriter, req *http.Request) error 
 	return nil
 }
 
+// @Summary Обновление актера [Админы]
+// @Description Доступно только админам
+// @Tags actor
+// @Accept json
+// @Produce json
+// @Param reg body dto.AddFilmToActorDto true "Данные id для связывания актера и фильма"
+// @Failure 404 {object} appErrors.ResponseError "Ошибка 404"
+// @Router /http/v1/actor/add-film [post]
 func (a *actorHandler) AddFilm(res http.ResponseWriter, req *http.Request) error {
 	var body dto.AddFilmToActorDto
 	err := httpUtils.BodyJson(req, &body)

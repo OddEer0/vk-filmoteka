@@ -1,14 +1,16 @@
-env: "dev"
-api_key: "super-puper-secret-key"
-access_token_time: "15m"
-refresh_token_time: "48h"
+env: "prod"
+api_key: "dsafd87gf78ds6tfd8fj89reafy9d78fyda80fdjasf9dsafhdh087haf6daf"
+access_token_time: "48h"
+refresh_token_time: "128h"
+admin_name: "eer0"
+admin_password: "Illidan4142"
 http_server:
-  address: "localhost:5000"
+  address: ":8080"
   timeout: 4s
   idle_timeout: 30s
 postgres:
-  host: "localhost"
-  port: "5432"
+  host: "postgres"
+  port: 5432
   user: "greenpoo"
-  password: "root"
-  dbname: "vk-filmoteka"
+  password: "my-super-secret-key"
+  dbname: "filmoteka"

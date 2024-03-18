@@ -1,6 +1,10 @@
 package inMemDb
 
-import "github.com/OddEer0/vk-filmoteka/internal/domain/model"
+import (
+	"github.com/OddEer0/vk-filmoteka/internal/common/constants"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/model"
+	"github.com/OddEer0/vk-filmoteka/internal/domain/valuesobject"
+)
 
 type ActorFilm struct {
 	ActorId string
@@ -37,6 +41,15 @@ func New() *InMemDb {
 		Film:      []*model.Film{},
 		ActorFilm: []*ActorFilm{},
 	}
+
+	password, _ := valuesobject.NewPassword("Adminadmin41")
+
+	instance.Users = append(instance.Users, &model.User{
+		Id:       "admin",
+		Name:     "Admin",
+		Password: password,
+		Role:     constants.AdminRole,
+	})
 
 	return instance
 }
