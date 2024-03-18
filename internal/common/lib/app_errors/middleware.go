@@ -10,18 +10,6 @@ import (
 
 type AppHandlerFunc func(res http.ResponseWriter, req *http.Request) error
 
-func Middleware(handlerFunc AppHandlerFunc) http.HandlerFunc {
-	return func(res http.ResponseWriter, req *http.Request) {
-		err := handlerFunc(res, req)
-		if err != nil {
-			var appErr *AppError
-			if errors.As(err, &appErr) {
-				httpUtils.SendJson(res, appErr.Code, ResponseError{Code: appErr.Code, Message: appErr.Message})
-			}
-		}
-	}
-}
-
 func LoggingMiddleware(logger *slog.Logger) func(handlerFunc AppHandlerFunc) http.HandlerFunc {
 	return func(handlerFunc AppHandlerFunc) http.HandlerFunc {
 		return func(res http.ResponseWriter, req *http.Request) {
