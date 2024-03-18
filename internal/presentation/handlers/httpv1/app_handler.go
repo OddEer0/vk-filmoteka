@@ -18,6 +18,7 @@ type (
 )
 
 var instance *AppHandler = nil
+var instance2 *AppHandler = nil
 
 func NewAppHandler() *AppHandler {
 	if instance != nil {
@@ -43,4 +44,30 @@ func NewAppHandler() *AppHandler {
 	}
 
 	return instance
+}
+
+func NewAppHandlerMock() *AppHandler {
+	if instance2 != nil {
+		return instance2
+	}
+
+	userRepo := mockRepository.NewUserRepository()
+	tokenRepo := mockRepository.NewTokenRepository()
+	actorRepo := mockRepository.NewActorRepository()
+	filmRepo := mockRepository.NewFilmRepository()
+
+	userServ := userService.New(userRepo)
+	tokenServ := tokenService.New(tokenRepo)
+
+	authUsecase := authUseCase.New(userServ, tokenServ, userRepo)
+	actorUsecase := actorUseCase.New(actorRepo, filmRepo)
+	filmUsecase := filmUseCase.New(filmRepo)
+
+	instance2 = &AppHandler{
+		AuthHandler:  NewAuthHandler(authUsecase),
+		FilmHandler:  NewFilmHandler(filmUsecase),
+		ActorHandler: NewActorHandler(actorUsecase),
+	}
+
+	return instance2
 }

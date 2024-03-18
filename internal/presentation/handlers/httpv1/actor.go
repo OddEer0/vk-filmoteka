@@ -67,39 +67,32 @@ func (a *actorHandler) Delete(res http.ResponseWriter, req *http.Request) error 
 
 func (a *actorHandler) GetByQuery(res http.ResponseWriter, req *http.Request) error {
 	query := req.URL.Query()
-	var (
-		currentPage = 1
-		pageCount   = 10
-		connection  = make([]string, 0, 1)
-		err         error
-	)
+	fQuery := domainQuery.NewActorRepositoryQuery()
+	var err error
+
 	if query.Has("page") {
 		currentPageQ := req.URL.Query().Get("page")
-		currentPage, err = strconv.Atoi(currentPageQ)
+		fQuery.CurrentPage, err = strconv.Atoi(currentPageQ)
 		if err != nil {
-			return appErrors.BadRequest("")
+			return appErrors.BadRequest("invalid page")
 		}
 	}
 	if query.Has("page-count") {
 		pageCountQ := req.URL.Query().Get("page-count")
-		pageCount, err = strconv.Atoi(pageCountQ)
+		fQuery.PageCount, err = strconv.Atoi(pageCountQ)
 		if err != nil {
-			return appErrors.BadRequest("")
+			return appErrors.BadRequest("invalid page count")
 		}
 	}
 	if query.Has("connection") {
 		connectionQ := req.URL.Query().Get("connection")
 		if connectionQ != "film" {
-			return appErrors.BadRequest("")
+			return appErrors.BadRequest("invalid connection")
 		}
-		connection = append(connection, connectionQ)
+		fQuery.WithConnection = append(fQuery.WithConnection, connectionQ)
 	}
 
-	result, err := a.ActorUseCase.GetByQuery(req.Context(), domainQuery.ActorRepositoryQuery{
-		CurrentPage:    currentPage,
-		PageCount:      pageCount,
-		WithConnection: connection,
-	})
+	result, err := a.ActorUseCase.GetByQuery(req.Context(), *fQuery)
 	if err != nil {
 		return err
 	}

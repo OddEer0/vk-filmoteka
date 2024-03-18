@@ -66,13 +66,7 @@ func (f *filmHandler) Delete(res http.ResponseWriter, req *http.Request) error {
 }
 
 func (f *filmHandler) GetByQuery(res http.ResponseWriter, req *http.Request) error {
-	fQuery := domainQuery.FilmRepositoryQuery{
-		SortField:      "rate",
-		OrderBy:        domainQuery.Asc,
-		CurrentPage:    1,
-		PageCount:      10,
-		WithConnection: make([]string, 0, 1),
-	}
+	fQuery := domainQuery.NewFilmRepositoryQuery()
 	var err error
 
 	query := req.URL.Query()
@@ -122,7 +116,7 @@ func (f *filmHandler) GetByQuery(res http.ResponseWriter, req *http.Request) err
 		fQuery.SortField = field
 	}
 
-	result, err := f.FilmUseCase.GetByQuery(req.Context(), fQuery)
+	result, err := f.FilmUseCase.GetByQuery(req.Context(), *fQuery)
 	if err != nil {
 		return err
 	}
